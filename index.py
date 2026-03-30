@@ -5,7 +5,11 @@ from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, parse_qs
 from datetime import datetime
 import time
+import os
+from dotenv import load_dotenv
 from discordwebhook import Discord
+
+load_dotenv()
 
 def headless_scrape(url, latitude, longitude):
     chrome_options = Options()
@@ -73,11 +77,11 @@ def loop_scarpe(url, latitude, longitude, delay, notification, discord_webhook):
 
 
 if __name__ == "__main__":
-    url = "https://www.district.in/movies/project-hail-mary-movie-tickets-in-mumbai-MV200953?frmtid=etarl9n_zj&fromdate=2026-04-02"
-    latitude = 28.5355
-    longitude = 77.3910
-    delay = 60
-    discord_webhook = "https://discord.com/api/webhooks/1488160925134356600/vH6d2oXLCfsiwwLJXQbyu4dyU6BvWVfWPf7AUwR5sxSovmENNTmDXTFIR1YvbhxPpewk"
-    notification = "Project Hail Mary available for 1st April, Noida <@625592913090314240> <@376731640640307222>"
+    url = os.getenv("SCRAPE_URL")
+    latitude = float(os.getenv("LATITUDE"))
+    longitude = float(os.getenv("LONGITUDE"))
+    delay = int(os.getenv("DELAY"))
+    discord_webhook = os.getenv("DISCORD_WEBHOOK")
+    notification = os.getenv("NOTIFICATION")
 
     loop_scarpe(url, latitude, longitude, delay, notification, discord_webhook)
